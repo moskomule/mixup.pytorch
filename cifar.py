@@ -93,13 +93,13 @@ def resnet20(**kwargs):
     """Constructs a ResNet-18 model.
     
     """
-    model = ResNet(BasicBlock, 2, **kwargs)
+    model = ResNet(BasicBlock, 3, **kwargs)
     return model
 
 
-def resnet34(**kwargs):
+def resnet32(**kwargs):
     """Constructs a ResNet-34 model.
     
     """
-    model = ResNet(BasicBlock, [3, 4, 6, 3], **kwargs)
+    model = ResNet(BasicBlock, 5, **kwargs)
     return model

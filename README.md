@@ -1,14 +1,14 @@
-# [WIP]mixup.pytorch
+# mixup.pytorch
 
 An implementation of *mixup: Beyond Empirical Risk Minimization* by Hongyi Zhang, Moustapha Cisse, Yann N. Dauphin, and David Lopez-Paz.
 
-Now I'm testing mixup-ResNet(50) with CIFAR10 dataset.
+Now I'm testing ResNet20 (proposed in He et al. 2015)+mixup with CIFAR10 dataset.
 
 ```
-python exec.py [--mixup --alpha 1]
+python exec.py [--mixup --alpha 1 --share]
 ```
 
-runs ResNet. To enable mixup, specify `--mixup` and to change hyperparameter of beta distribution, use `--alpha FLOAT`.
+runs ResNet. To enable mixup, specify `--mixup`, to change hyperparameter of beta distribution, use `--alpha FLOAT`. `--share` makes mixup to use the same factor `_lambda` in the same mini-batch.
 
 ## Requirements
 
@@ -17,6 +17,14 @@ runs ResNet. To enable mixup, specify `--mixup` and to change hyperparameter of 
 * torchvision (0.19)
 * tqdm
 
-## Notice
+## Results
 
-Though it should work, I found that I'm using ResNet for ImageNet instead of CIFAR10. I'll implement CIFAR10 version so please wait the results.
+### CIFAR10
+
+ResNet20 (proposed in He et al. 2015)+mixup(alpha=1) does not outperform ResNet20(EMP). Other hyperparamters are shared.
+
+In the paper pre-act ResNet-18 is used, instead, so I'll test it later.
+
+|                  | EMP            | mixup          |
+|:-------------    | :------------- | :------------- |
+|max. test accuracy|  92%           | 91%            |
