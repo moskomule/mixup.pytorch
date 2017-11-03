@@ -3,7 +3,6 @@ ResNet for CIFAR dataset proposed in He+15, p 7.
 """
 
 import math
-
 import torch.nn as nn
 
 

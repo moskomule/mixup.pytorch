@@ -22,7 +22,7 @@ runs ResNet. To enable mixup, specify `--mixup`, to change hyperparameter of bet
 ### CIFAR10
 
 ResNet20 (proposed in He et al. 2015)+mixup(alpha=1) does not outperform ResNet20(EMP). Other hyperparamters are shared.
-
+q
 In the paper pre-act ResNet-18 is used, instead, so I'll test it later.
 
 |                  | EMP            | mixup          |
