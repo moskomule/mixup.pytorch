@@ -13,7 +13,7 @@ def conv3x3(in_planes, out_planes, stride=1):
 
 
 class BasicBlock(nn.Module):
-    def __init__(self, inplanes, planes, stride=1, pre_act=False):
+    def __init__(self, inplanes, planes, stride=1):
         super(BasicBlock, self).__init__()
         self.conv1 = conv3x3(inplanes, planes)
         self.bn1 = nn.BatchNorm2d(planes)
@@ -23,7 +23,6 @@ class BasicBlock(nn.Module):
         self.downsample = nn.Sequential(nn.Conv2d(inplanes, planes, kernel_size=1,
                                                   stride=1, bias=False),
                                         nn.BatchNorm2d(planes))
-        self.pre_act = pre_act
         self.stride = stride
 
     def forward(self, x):
@@ -38,6 +37,26 @@ class BasicBlock(nn.Module):
 
         out += residual
         out = self.relu(out)
+
+        return out
+
+
+class PreActBasicBlock(BasicBlock):
+    def __init__(self, inplanes, planes, stride):
+        super(PreActBasicBlock, self).__init__(inplanes, planes, stride)
+        self.bn1 = nn.BatchNorm2d(inplanes)
+
+    def forward(self, x):
+        residual = self.downsample(x)
+        out = self.bn1(x)
+        out = self.relu(out)
+        out = self.conv1(out)
+
+        out = self.bn2(out)
+        out = self.relu(out)
+        out = self.conv2(out)
+
+        out += residual
 
         return out
 
@@ -101,4 +120,20 @@ def resnet32(**kwargs):
     
     """
     model = ResNet(BasicBlock, 5, **kwargs)
+    return model
+
+
+def preact_resnet20(**kwargs):
+    """Constructs a ResNet-18 model.
+
+    """
+    model = ResNet(PreActBasicBlock, 3, **kwargs)
+    return model
+
+
+def preact_resnet32(**kwargs):
+    """Constructs a ResNet-34 model.
+
+    """
+    model = ResNet(PreActBasicBlock, 5, **kwargs)
     return model

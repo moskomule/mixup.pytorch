@@ -23,7 +23,7 @@ def standard_train(model, optimizer, data_loader, data_length):
         loss.backward()
         optimizer.step()
         loop_loss.append(loss.data[0] / data_length)
-    print(f">>>(standard)loss: {sum(loop_loss):.2f}")
+    print(f">>>(standard)loss: {sum(loop_loss):.2%}")
 
 
 def mixup_train(model, optimizer, data_loaders, alpha, data_length, num_classes=10, share_lambda=False):
@@ -55,7 +55,7 @@ def mixup_train(model, optimizer, data_loaders, alpha, data_length, num_classes=
         loss.backward()
         optimizer.step()
         loop_loss.append(loss.data[0] / data_length)
-    print(f">>>(mixup)loss: {sum(loop_loss):.2f}")
+    print(f">>>(mixup)loss: {sum(loop_loss):.2%}")
 
 
 def test(model, data_loader):
@@ -67,4 +67,4 @@ def test(model, data_loader):
             target = variable(target)
         output = F.softmax(model(input), dim=1)
         loop_accuracy.append((output.data.max(1)[1] == target.data).sum() / len(data_loader.dataset))
-    print(f">>>(test)accuracy: {sum(loop_accuracy):.2f}")
+    print(f">>>(test)accuracy: {sum(loop_accuracy):.2%}")

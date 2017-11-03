@@ -1,8 +1,7 @@
 import torch
 import torch.optim as optim
 from torchvision import datasets, transforms
-from cifar import resnet20
-from preact import resnet18
+from cifar import resnet20, preact_resnet20
 from utils import *
 
 cuda_available = torch.cuda.is_available()
@@ -39,11 +38,12 @@ def main(use_mixup, alpha, batch_size, share, preact):
             datasets.CIFAR10('data/cifar10', train=False, transform=transform_test), batch_size=batch_size,
             shuffle=True)
 
-    model = resnet18(num_classes=10) if preact else resnet20()
+    model = preact_resnet20() if preact else resnet20()
     if cuda_available:
         model.cuda()
     optimizer = optim.SGD(params=model.parameters(), lr=1e-1, momentum=0.9, weight_decay=1e-4)
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[100, 150], gamma=0.1)
+
     for idx in range(200):
         print(f"epoch: {idx}")
         scheduler.step()
