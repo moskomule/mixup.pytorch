@@ -1,6 +1,6 @@
-import torch
 import torch.optim as optim
 from torchvision import datasets, transforms
+
 from cifar import resnet20, preact_resnet20
 from utils import *
 
@@ -61,10 +61,10 @@ if __name__ == '__main__':
     import argparse
 
     p = argparse.ArgumentParser()
-    p.add_argument("--mixup", action="store_true")
+    p.add_argument("--nomixup", action="store_false")
     p.add_argument("--alpha", type=float, default=1)
     p.add_argument("--batchsize", type=int, default=64)
     p.add_argument("--share", action="store_true")
     p.add_argument("--preact", action="store_true")
     args = p.parse_args()
-    main(args.mixup, args.alpha, args.batchsize, args.share, args.preact)
+    main(args.nomixup, args.alpha, args.batchsize, args.share, args.preact)
