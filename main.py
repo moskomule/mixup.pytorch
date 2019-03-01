@@ -55,7 +55,7 @@ def main():
     c = [callbacks.AccuracyCallback(), callbacks.LossCallback()]
 
     with reporters.TQDMReporter(range(args.epochs), callbacks=c) as tq, reporters.TensorboardReporter(c) as tb:
-        trainer = Trainer(model, optimizer, naive_cross_entropy_loss,
+        trainer = Trainer(model, optimizer, F.cross_entropy if args.baseline else naive_cross_entropy_loss,
                           callbacks=[tq, tb],
                           scheduler=scheduler,
                           alpha=args.alpha,
@@ -70,8 +70,8 @@ if __name__ == '__main__':
 
     p = miniargs.ArgumentParser()
     p.add_int("--batch_size", default=128)
-    p.add_int("--epochs", default=400)
-    p.add_multi_int("--steps", default=[250, 300])
+    p.add_int("--epochs", default=200)
+    p.add_multi_int("--steps", default=[100, 150])
     p.add_str("--dataset", choices=list(DATASETS.keys()))
     p.add_str("--model", choices=list(MODELS.keys()))
     p.add_float("--alpha", default=1)
